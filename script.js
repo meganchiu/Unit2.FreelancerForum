@@ -1,8 +1,10 @@
+// Initial freelancerList array
 const freelancerList = [
-  {name: "Alice", occupation: "writer", price: 30},
-  {name: "Bob", occupation: "teacher", price: 50}
+  {name: "Alice", occupation: "Writer", price: 30},
+  {name: "Bob", occupation: "Teacher", price: 50}
 ]
 
+// Select a random name from the given name array
 function generateRandomName() {
   let nameArr = ["Shauna", "Elexis", "Lorraine", "Kala", "Mattie", 
     "Brock", "Tina", "Hunter", "Adrian", "Augustine", "Bridget"];
@@ -10,34 +12,67 @@ function generateRandomName() {
   return randomName;
 }
 
+// Select a random number from 1 to 100 for the price
 function generateRandomPrice() {
   let randomPrice = Math.floor(Math.random() * 100) + 1;
   return randomPrice;
 }
 
+// Select a random occupation from the given job array
 function generateRandomOccupation() {
-  let jobArr = ["writer", "teacher", "engineer", "driver", 
-    "nurse", "farmer", "gardener", "librarian"];
+  let jobArr = ["Writer", "Teacher", "Engineer", "Driver", 
+    "Nurse", "Farmer", "Gardener", "Librarian"];
   let randomJob = jobArr[Math.floor(Math.random() * jobArr.length)];
   return randomJob;
 }
 
+// Add a new freelancer object to the freelancerList array
 function addFreelancer() {
   let randName = generateRandomName();
   let randJob = generateRandomOccupation();
   let randPrice = generateRandomPrice();
 
   freelancerList.push({name: randName, occupation: randJob, price: randPrice});
-
-  return freelancerList;
 }
 
+// Calculates average starting price of all prices in the freelancerList 
 function getAvgStartingPrice(freelancerList) {
   let sum = 0;
   for (let i=0; i<freelancerList.length; i++) {
     sum = sum + freelancerList[i].price;
   }  
-  return sum/freelancerList.length;
+  return Math.floor(sum/freelancerList.length);
 }
 
+// Update DOM to reflect the current freelancerList and avg starting price
+function renderFreelancers(freelancerList) {
+  const list = document.querySelector("#root");
+  const freelancerElements = freelancerList.map((freelancer) => {
+    const freelancerElement = document.createElement("li");
+    freelancerElement.textContent = "Name: " + freelancer.name + "; Occupation: " + freelancer.occupation + "; Price: " + freelancer.price;
+    return freelancerElement;
+  });
+  list.replaceChildren(...freelancerElements);
 
+  renderAvgStartingPrice(freelancerList);
+}
+
+// Render the average starting price of all freelancers in freelancerList
+function renderAvgStartingPrice(freelancerList) {
+  let avg = getAvgStartingPrice(freelancerList);
+  const h2 = document.querySelector("#avg");
+  h2.textContent = "The average starting price is $" + avg;
+}
+
+// Use 'setInterval()' to call the callback function every 1000 milliseconds (1 second)
+// Calling `clearInterval(addFreelancerInterval)` will stop the interval once the list reaches 25.
+const addFreelancerInterval = setInterval(() => {
+  addFreelancer();
+  renderFreelancers(freelancerList);
+
+  if (freelancerList.length === 25) {
+    clearInterval(addFreelancerInterval);
+  }
+}, 1000);
+
+renderFreelancers(freelancerList);
