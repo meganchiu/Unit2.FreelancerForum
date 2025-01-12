@@ -35,7 +35,7 @@ function addFreelancer() {
   freelancerList.push({name: randName, occupation: randJob, price: randPrice});
 }
 
-// Calculates average starting price of all prices in the freelancerList 
+// Calculates average starting price, given all prices in the freelancerList array
 function getAvgStartingPrice(freelancerList) {
   let sum = 0;
   for (let i=0; i<freelancerList.length; i++) {
@@ -44,7 +44,7 @@ function getAvgStartingPrice(freelancerList) {
   return Math.floor(sum/freelancerList.length);
 }
 
-// Update DOM to reflect the current freelancerList and avg starting price
+// Update the DOM to reflect the current freelancerList and avg starting price
 function renderFreelancers(freelancerList) {
   const list = document.querySelector("#root");
   const freelancerElements = freelancerList.map((freelancer) => {
@@ -57,7 +57,7 @@ function renderFreelancers(freelancerList) {
   renderAvgStartingPrice(freelancerList);
 }
 
-// Render the average starting price of all freelancers in freelancerList
+// Render the average starting price of all freelancers in freelancerList array
 function renderAvgStartingPrice(freelancerList) {
   let avg = getAvgStartingPrice(freelancerList);
   const h2 = document.querySelector("#avg");
